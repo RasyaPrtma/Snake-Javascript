@@ -13,6 +13,8 @@ const slider = document.getElementById('slider');
 const rewind = document.getElementById('rewind');
 const cancel = document.getElementById('cancel')
 const exit = document.getElementById('exit');
+const pause = document.getElementById('pause');
+const play = document.getElementById('play');
 const snake = new SnakeGame({
   canvas : canvas,
   width : 960,
@@ -29,7 +31,8 @@ const snake = new SnakeGame({
   foodColor : 'red',
   foodQuantity : 1,
   foodTimeGenerate:5000,
-  text: text
+  text: text,
+  play : play
 });
 
 
@@ -43,6 +46,7 @@ menu_name_btn.addEventListener('click',function(){
     menu_name.classList.remove('show');
     game.classList.add('show');
     rewind.classList.add('show');
+    pause.classList.add('show');
     nama.innerText = `Player: ${menu_name_input.value}`;
     localStorage.setItem('name',menu_name_input.value);
     snake.nama = menu_name_input.value;
@@ -57,6 +61,9 @@ window.addEventListener('load',function(){
   if(localStorage.getItem('name') !== null){
     instruction.classList.add('hide');
     game.classList.add('show');
+    rewind.classList.add('show')
+    pause.classList.add('show');
+    snake.nama = localStorage.getItem('name');
     snake.Init();
     snake.start();
     nama.innerText = `Player: ${localStorage.getItem('name')}`;
@@ -88,10 +95,19 @@ slider.addEventListener('input', (e) => {
   let val = e.target.value;
   snake.snake = snake.snakeHistory[val] == undefined ? snake.snake : snake.snakeHistory[val];
   snake.food = snake.foodHistory[val] == undefined ? snake.food : snake.foodHistory[val];
-})
+});
 
 exit.addEventListener('click',() => {
   localStorage.removeItem('name');
   localStorage.removeItem('highscore');
   window.location.reload();
+});
+
+pause.addEventListener('click',() => {
+  snake.gameStatus = "sendpause";
+  play.classList.add('show');
+})
+
+play.addEventListener('click', () => {
+  snake.gameStatus = "sendresume";
 })

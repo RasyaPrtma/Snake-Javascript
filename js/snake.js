@@ -5,6 +5,9 @@ class SnakeGame{
         this.canvas.width = object.width;
         this.canvas.height = object.height;
         this.timestamp = 0;
+        this.historyTime = []
+        this.pauseTime = 0;
+        this.selisihPause = 0;
         this.gameStatus = 'play';
         this.score = object.score;
         this.timer = object.timer;
@@ -36,6 +39,7 @@ class SnakeGame{
         this.startTime = 0;
         this.nama = "";
         this.text = object.text;
+        this.resume = object.play;
       }
 
       Init(){
@@ -131,17 +135,20 @@ class SnakeGame{
       }
 
       updateTimer(timestamp){
-        let seconds = Math.floor((timestamp / 1000) % 60);
-        let minutes = Math.floor((timestamp / (1000 * 60)) % 60);
-        let hours = Math.floor((timestamp / (1000 * 60 * 60) % 60));
-        this.timer.innerText = `${hours<10?0:''}${hours}:${minutes<10?0:''}${minutes}:${seconds<10?0:''}${seconds}`;
+        const showTime = timestamp - this.selisihPause
+        let seconds = Math.floor((showTime / 1000) % 60);
+        let minutes = Math.floor((showTime / (1000 * 60)) % 60);
+        let hours = Math.floor((showTime / (1000 * 60 * 60) % 60));
+        this.timer.innerText = `${hours<24?0:''}${hours}:${minutes<60?0:''}${minutes}:${seconds<10?0:''}${seconds}`;
       }
 
       update(timestamp){
-        this.updateSnake();
-        this.updateScore();
-        let gameTime = timestamp - this.startTime;
-        this.updateTimer(gameTime)
+        if(this.gameStatus == 'play'){
+          this.updateSnake();
+          this.updateScore();
+          let gameTime = timestamp - this.startTime;
+          this.updateTimer(gameTime);
+        }
       }
 
       isSnakeEatFood(){
@@ -190,11 +197,9 @@ class SnakeGame{
         if(this.snake.length > highscore) localStorage.setItem('highscore', this.snake.length);
 
         highscore = localStorage.getItem('highscore');
-        console.log(this.nama)
         
         alert(`Game Over, ${this.nama} You Score : ${this.score.innerText}, Your Best Score : ${highscore}`);
         this.gameStatus = 'over';
-        console.log(this.text)
         this.text.innerHTML = "GAME OVER";
         this.food = [];
       }
@@ -202,16 +207,25 @@ class SnakeGame{
       render(timestamp){
         this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
         this.timestamp = timestamp;
-        this.draw();
-
-        if(timestamp - this.timePassed  > this.snakeSpeed && this.gameStatus == 'play'){
-          this.timePassed = timestamp;
-          this.update(timestamp);
+        if (this.gameStatus == 'sendpause') {
+          this.pauseTime = timestamp
+          this.gameStatus = 'pause'
         }
-        requestAnimationFrame((timestamp) => {
-          this.render(timestamp);
-        })
-      }
+        if (this.gameStatus == 'sendresume') {
+          console.log('resume sent')
+          this.selisihPause += timestamp - this.pauseTime
+          this.gameStatus = 'play'
+        }
+        this.draw();
+    
+        if(timestamp - this.timePassed  > this.snakeSpeed && this.gameStatus == 'play'){
+              this.timePassed = timestamp;
+              this.update(timestamp);
+        }
+            requestAnimationFrame((timestamp) => {
+              this.render(timestamp);
+          })
+    }
 
       start(){
         requestAnimationFrame((timestamp) => {
@@ -222,6 +236,7 @@ class SnakeGame{
 
       events(){
         document.addEventListener('keyup', (e) => {
+          if(this.gameStatus === 'pause')return;
           if((e.key == 'w' || e.key == 'ArrowUp') && this.snakeDirection !== 'down'){
             this.snakeDy = -this.sizeBlock.h;
             this.snakeDx = 0;
@@ -264,4 +279,5 @@ class SnakeGame{
       randInt(min,max){
         return Math.floor(Math.random() * max) + min;
       }
+
 };

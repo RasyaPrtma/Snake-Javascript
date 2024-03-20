@@ -166,6 +166,28 @@ h1,h2{
     display: flex;
 }
 
+#pause{
+    display: none;
+    color: #f8f8f8;
+    font-weight: bold;
+    background:#3bace8;
+}
+
+#pause.show{
+    display: block;
+}
+
+#play{
+    display: none;
+    color: #f8f8f8;
+    background: #31cd31;
+    font-weight: bold;
+}
+
+#play.show{
+    display: block;
+}
+
 .slider {
     -webkit-appearance: none;
     width: 960px;
