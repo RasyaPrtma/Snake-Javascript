@@ -48,6 +48,13 @@ body{
     display: block;
 }
 
+#rewind{
+    display: none;
+}
+
+#rewind.show{
+    display: block;
+}
 .wrap{
     margin: 0 auto;
     background: #172026;

@@ -42,6 +42,7 @@ menu_name_btn.addEventListener('click',function(){
    if(menu_name_input.value !== ""){
     menu_name.classList.remove('show');
     game.classList.add('show');
+    rewind.classList.add('show');
     nama.innerText = `Player: ${menu_name_input.value}`;
     localStorage.setItem('name',menu_name_input.value);
     snake.nama = menu_name_input.value;
