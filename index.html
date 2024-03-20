@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHYTONS</title>
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- FAVICON -->
+    <link rel="icon" href="Assets/Snake.png" type="image/x-icon">
+</head>
+<body>
+    <div id="game-menu" class="menu">
+        <h1 class="menu-h1">PHYTONS GAME</h1>
+        <h3 style="color: #f8f8f8;">Instrunction Game</h3>
+        <div class="intruction">
+            <p>1.Masukkan Nama Anda</p>
+            <p>2.WASD Untuk Menggerakan Ular Ataupun Panah</p>
+            <p>3.Rewind Untuk Kembali Ke Keadaan Sebelumnya</p>
+            <p>4.Cancel Ketika Rewind Untuk Membatalkan Rewind</p>
+            <p>Sekian Untuk Mekanisme Game Nya</p>
+        </div>
+        <button id="start-menu" class="btn-menu">Start</button>
+    </div>
+
+    <div id="name-menu">
+        <div class="wrap">
+            <h3 style="color: #6e787e; font-size: 30px;">Masukkan Nama</h3>
+            <input type="text" autocomplete="off" id="name">
+            <button id="btn-name">Mulai</button>
+        </div>
+    </div>
+
+    <div id="game">
+        <div class="game-status">
+            <h2>Score <br><span id="score">0</span></h2>
+            <h1 style="margin: 0 2rem;" id="phytons">PHYTONS</h1>
+            <div>
+                <h2>Time <br><span id="timer">00:00:00</span></h2>
+                <div style="display: flex; align-items: center;">
+                    <h3 style="color :#3bace8; font-size: 16px; font-weight: bold;" id="nama"></h3>
+                <h3 style="margin-left: 1.5rem;"><a style="text-decoration: none; color: #3bace8; cursor: pointer;" id="exit">Exit <i class="fa-solid fa-right-from-bracket"></i></a></h3>
+                </div>
+            </div>
+            </div>
+        </div>
+        <canvas id="canvas"></canvas>
+        <div class="game-footer">
+            <input id="slider" class="slider" type="range"  min="1" step="1" max="10">
+            <div class="game-btn">
+                <button class="btn cancel" id="cancel">Cancel</button>
+                <button class="btn rewind" id="rewind"> <i class="fa fa-undo" aria-hidden="true"></i> Rewind</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/snake.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
