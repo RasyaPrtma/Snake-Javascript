@@ -283,7 +283,7 @@ class SnakeGame{
 
         if(this.snake.length > highscore) localStorage.setItem('highscore', this.snake.length - 1);
 
-        highscore = localStorage.getItem('highscore');
+        highscore = localStorage.getItem('highscore') ?? 0;
         
         alert(`Game Over, ${this.nama} You Score : ${this.score.innerText}, Your Best Score : ${highscore}`);
         this.gameStatus = 'over';
