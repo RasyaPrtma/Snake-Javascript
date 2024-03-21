@@ -137,7 +137,7 @@ class SnakeGame{
 
       drawBomb(){
         const ImageBomb = new Image();
-        ImageBomb.src = './Assets/bomb.png';
+        ImageBomb.src = '../Assets/bomb.png';
 
         this.bomb.forEach(bomb => {
           this.ctx.fillStyle = this.bombColor;
