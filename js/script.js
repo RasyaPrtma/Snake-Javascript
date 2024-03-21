@@ -16,6 +16,7 @@ const exit = document.getElementById('exit');
 const pause = document.getElementById('pause');
 const play = document.getElementById('play');
 const restart = document.getElementById('restart');
+
 const snake = new SnakeGame({
   canvas : canvas,
   width : 960,
@@ -124,3 +125,4 @@ play.addEventListener('click', () => {
 restart.addEventListener('click',() => {
   window.location.reload();
 })
+
