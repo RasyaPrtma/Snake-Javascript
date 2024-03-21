@@ -27,19 +27,25 @@ class SnakeGame{
         this.snakeDirection = object.snakeDirection;
         this.snakeDx = this.sizeBlock.w;
         this.snakeDy = 0;
-        this.snakeSpeed = 500;
+        this.snakeSpeed = 300;
     
         this.food = [];
         this.foodHistory = [];
         this.foodColor = object.foodColor;
         this.foodQuantity = object.foodQuantity;
         this.TimeGenerateFood = object.foodTimeGenerate;
+
+        this.bomb = [];
+        this.bombHistory = [];
+        this.bombColor = "#000";
+        this.bombQuantity = 1;
+        this.TimeGenerateBomb = 10000;
     
         this.timePassed = 0;
         this.startTime = 0;
         this.nama = "";
         this.text = object.text;
-        this.resume = object.play;
+        this.restart = object.restart;
       }
 
       Init(){
@@ -72,7 +78,12 @@ class SnakeGame{
           return this.generateFood();
         }
       }
-
+      // Create A Bom
+      for(let i = 1; i < this.bombQuantity; i++){
+        if(this.gameStatus == 'play'){
+          return this.generateBomb();
+        }
+      }
       this.events();
       }
 
@@ -99,11 +110,20 @@ class SnakeGame{
         })
       }
 
+      drawBomb(){
+        this.bomb.forEach(bomb => {
+          this.ctx.fillStyle = this.bombColor;
+          this.ctx.fillRect(bomb.x,bomb.y,this.sizeBlock.w,this.sizeBlock.h);
+        })
+
+      }
+
       draw(){
         this.drawBlock();
         if(this.gameStatus !== 'over'){
           this.drawSnake();
           this.drawFood();
+          this.drawBomb();
         }
       }
 
@@ -121,17 +141,25 @@ class SnakeGame{
         else if (newBody.y + this.sizeBlock.h > this.canvas.height) this.snake[0].y = 0;
 
         if(!this.isSnakeEatFood()) this.snake.pop();
+        if(this.isSnakeTouchBomb()) this.snake.pop();
 
         this.snake.forEach((snakes,index) => {
           if(index > 0){
-            if(newBody.x === snakes.x && newBody.y === snakes.y) this.gameOver();
+            if(newBody.x === snakes.x && newBody.y === snakes.y) this.gameOver();  
           }
-        })
+        });
+        if(this.snake.length <= 0){
+          this.gameOver();
+        };
         this.snakeTemporary = this.snake;
       }
 
       updateScore(){
-        this.score.innerText = this.snake.length - 1;
+        if(this.snake.length > 0){
+          this.score.innerText = this.snake.length - 1;
+        }else{
+          this.score.innerText = 0;
+        }
       }
 
       updateTimer(timestamp){
@@ -160,8 +188,8 @@ class SnakeGame{
           if(body.x == food.x && body.y == food.y){
             eaten = true;
             foodEatenIndex = index;
-            this.snakeSpeed -= 20;
-            this.TimeGenerateFood -= 100;
+            this.snakeSpeed -= 5;
+            this.TimeGenerateFood -= 50;
             return true;
           }
         });
@@ -170,9 +198,30 @@ class SnakeGame{
         return eaten;
       }
 
+      isSnakeTouchBomb(){
+        let body = this.snake[0];
+        let touched = false;
+        let bombTouchIndex = null;
+
+        this.bomb.forEach((bomb,index) => {
+          if(body.x == bomb.x && body.y == bomb.y){
+            touched = true;
+            bombTouchIndex = index;
+            this.snake.pop();
+          if(bombTouchIndex !== null) this.bomb.splice(index,1);
+            return true;
+          }
+        })
+      }
+
       generateFood(){
         let food = this.block[this.randInt(1,this.blockQuantity.y-2)][this.randInt(1,this.blockQuantity.x-2)];
         this.food.push(food);
+      }
+
+      generateBomb(){
+        let bomb = this.block[this.randInt(1,this.blockQuantity.y+3)][this.randInt(1,this.blockQuantity.x+3)];
+        this.bomb.push(bomb);
       }
 
       saveFoodPosition(){
@@ -191,10 +240,18 @@ class SnakeGame{
         this.snakeHistory.push(newSnake);
       }
 
+      saveBombHistory(){
+        if(this.bombHistory.length > 10){
+          this.bombHistory.shift();
+        }
+        let newBomb = this.bomb.slice();
+        this.bombHistory.push(newBomb);
+      }
+
       gameOver(){
         let highscore = localStorage.getItem('highscore') == undefined ? 0 : localStorage.getItem('highscore');
 
-        if(this.snake.length > highscore) localStorage.setItem('highscore', this.snake.length);
+        if(this.snake.length > highscore) localStorage.setItem('highscore', this.snake.length - 1);
 
         highscore = localStorage.getItem('highscore');
         
@@ -202,6 +259,7 @@ class SnakeGame{
         this.gameStatus = 'over';
         this.text.innerHTML = "GAME OVER";
         this.food = [];
+        this.restart.classList.add('show');
       }
 
       render(timestamp){
@@ -212,7 +270,6 @@ class SnakeGame{
           this.gameStatus = 'pause'
         }
         if (this.gameStatus == 'sendresume') {
-          console.log('resume sent')
           this.selisihPause += timestamp - this.pauseTime
           this.gameStatus = 'play'
         }
@@ -236,7 +293,6 @@ class SnakeGame{
 
       events(){
         document.addEventListener('keyup', (e) => {
-          if(this.gameStatus === 'pause')return;
           if((e.key == 'w' || e.key == 'ArrowUp') && this.snakeDirection !== 'down'){
             this.snakeDy = -this.sizeBlock.h;
             this.snakeDx = 0;
@@ -262,7 +318,7 @@ class SnakeGame{
 
         setInterval(() => {
           if(this.gameStatus == 'play'){
-            if(this.food.length > 5){
+            if(this.food.length > 4){
               return;
             };
             this.generateFood();
@@ -271,8 +327,18 @@ class SnakeGame{
 
         setInterval(() => {
           if(this.gameStatus == 'play'){
+            if(this.bomb.length > 20){
+              return;
+            }
+            this.generateBomb();
+          }
+        },this.TimeGenerateBomb);
+
+        setInterval(() => {
+          if(this.gameStatus == 'play'){
             this.saveFoodPosition();
             this.saveSnakeHistory();
+            this.saveBombHistory();
           }
         },1000)
       }

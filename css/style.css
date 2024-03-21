@@ -188,6 +188,17 @@ h1,h2{
     display: block;
 }
 
+#restart{
+    display: none;
+    background: red;
+    color: #f8f8f8;
+    font-weight: bold;
+}
+
+#restart.show{
+    display: block;
+}
+
 .slider {
     -webkit-appearance: none;
     width: 960px;
