@@ -40,6 +40,15 @@ class SnakeGame{
         this.bombColor = "#000";
         this.bombQuantity = 1;
         this.TimeGenerateBomb = 10000;
+
+        this.arrayEnemy = [];
+        this.enemy = [];
+        this.enemyColor = "orange";
+        this.enemyQuantity = 1;
+        this.enemyDy = 0;
+        this.enemyDx = this.sizeBlock.w;
+        this.enemyDirection = "left";
+        this.enemyLength = 4;
     
         this.timePassed = 0;
         this.startTime = 0;
@@ -71,6 +80,15 @@ class SnakeGame{
           y : blocks.y
         })
        }
+       
+      // //  Create Enemy 
+      // for(let i = 0; i < this.enemyLength;i++){
+      //   let block = this.block[this.blockQuantity.y / 2][0 + i];
+      //   this.enemy.push({
+      //     x: block.x,
+      //     y: block.y
+      //   })
+      // }
 
       //  Create A Food
       for(let i = 1; i < this.foodQuantity; i++){
@@ -102,6 +120,13 @@ class SnakeGame{
           this.ctx.fillRect(snake.x,snake.y,this.sizeBlock.w,this.sizeBlock.h);
         })
       }
+
+      // drawEnemy(){
+      //   this.enemy.forEach(enemy => {
+      //     this.ctx.fillStyle = this.enemyColor;
+      //     this.ctx.fillRect(enemy.x,enemy.y,this.sizeBlock.w,this.sizeBlock.h);
+      //   })
+      // }
       
       drawFood(){
         this.food.forEach(food => {
@@ -111,9 +136,12 @@ class SnakeGame{
       }
 
       drawBomb(){
+        const ImageBomb = new Image();
+        ImageBomb.src = 'Assets/bomb.png';
+
         this.bomb.forEach(bomb => {
           this.ctx.fillStyle = this.bombColor;
-          this.ctx.fillRect(bomb.x,bomb.y,this.sizeBlock.w,this.sizeBlock.h);
+          this.ctx.drawImage(ImageBomb,bomb.x,bomb.y,this.sizeBlock.w,this.sizeBlock.h);
         })
 
       }
@@ -122,6 +150,7 @@ class SnakeGame{
         this.drawBlock();
         if(this.gameStatus !== 'over'){
           this.drawSnake();
+          // this.drawEnemy();
           this.drawFood();
           this.drawBomb();
         }
@@ -211,6 +240,7 @@ class SnakeGame{
           if(bombTouchIndex !== null) this.bomb.splice(index,1);
             return true;
           }
+          return touched;
         })
       }
 
@@ -220,7 +250,7 @@ class SnakeGame{
       }
 
       generateBomb(){
-        let bomb = this.block[this.randInt(1,this.blockQuantity.y+3)][this.randInt(1,this.blockQuantity.x+3)];
+        let bomb = this.block[this.randInt(1,this.blockQuantity.y-2)][this.randInt(1,this.blockQuantity.x-2)];
         this.bomb.push(bomb);
       }
 
