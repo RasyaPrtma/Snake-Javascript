@@ -115,9 +115,11 @@ class SnakeGame{
       }
 
       drawSnake(){
+        const bodySnake = new Image();
+        bodySnake.src =  './Assets/snakeImage.png';
         this.snake.forEach(snake => {
           this.ctx.fillStyle = this.snakeColor;
-          this.ctx.fillRect(snake.x,snake.y,this.sizeBlock.w,this.sizeBlock.h);
+          this.ctx.drawImage(bodySnake,snake.x,snake.y,this.sizeBlock.w,this.sizeBlock.h);
         })
       }
 
@@ -129,15 +131,19 @@ class SnakeGame{
       // }
       
       drawFood(){
+        const ImageApple = new Image();
+        ImageApple.src = './Assets/apple.png';
+
         this.food.forEach(food => {
           this.ctx.fillStyle = this.foodColor;
-          this.ctx.fillRect(food.x,food.y,this.sizeBlock.w,this.sizeBlock.h);
+          // this.ctx.fillRect(food.x,food.y,this.sizeBlock.w,this.sizeBlock.h);
+          this.ctx.drawImage(ImageApple,food.x,food.y,this.sizeBlock.w,this.sizeBlock.h);
         })
       }
 
       drawBomb(){
         const ImageBomb = new Image();
-        ImageBomb.src = '../Assets/bomb.png';
+        ImageBomb.src = './Assets/bomb.png';
 
         this.bomb.forEach(bomb => {
           this.ctx.fillStyle = this.bombColor;
