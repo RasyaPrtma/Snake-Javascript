@@ -93,6 +93,7 @@ cancel.addEventListener(('click'),function(){
   snake.gameStatus = 'play';
   slider.classList.remove('show');
   cancel.classList.remove('show');
+  pause.classList.add('show');
 })
 
 slider.addEventListener('input', (e) => {
@@ -112,6 +113,7 @@ pause.addEventListener('click',() => {
  if(snake.gameStatus !== "over") {
   snake.gameStatus = "sendpause";
   play.classList.add('show');
+  rewind.classList.remove('show');
  }
 })
 
@@ -119,6 +121,7 @@ play.addEventListener('click', () => {
   if(snake.gameStatus !== "over"){
     snake.gameStatus = "sendresume";
     play.classList.remove('show');
+    rewind.classList.add('show');
   }
 });
 
