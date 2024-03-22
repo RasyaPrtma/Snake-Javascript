@@ -107,8 +107,8 @@ class SnakeGame{
 
       drawSnake(){
         const bodySnake = new Image();
-        bodySnake.src =  './Assets/snakeImage.png';
-        
+        bodySnake.src =  '../Assets/snakeImage.png';
+
         this.snake.forEach(snake => {
           this.ctx.fillStyle = this.snakeColor;
           this.ctx.drawImage(bodySnake,snake.x,snake.y,this.sizeBlock.w,this.sizeBlock.h);
@@ -117,7 +117,7 @@ class SnakeGame{
 
       drawFood(){
         const ImageApple = new Image();
-        ImageApple.src = './Assets/apple.png';
+        ImageApple.src = '../Assets/apple.png';
 
         this.food.forEach(food => {
           this.ctx.fillStyle = this.foodColor;
@@ -127,7 +127,7 @@ class SnakeGame{
 
       drawBomb(){
         const ImageBomb = new Image();
-        ImageBomb.src = './Assets/bomb.png';
+        ImageBomb.src = '../Assets/bomb.png';
 
         this.bomb.forEach(bomb => {
           this.ctx.fillStyle = this.bombColor;
