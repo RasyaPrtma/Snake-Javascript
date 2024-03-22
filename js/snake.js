@@ -80,15 +80,6 @@ class SnakeGame{
           y : blocks.y
         })
        }
-       
-      // //  Create Enemy 
-      // for(let i = 0; i < this.enemyLength;i++){
-      //   let block = this.block[this.blockQuantity.y / 2][0 + i];
-      //   this.enemy.push({
-      //     x: block.x,
-      //     y: block.y
-      //   })
-      // }
 
       //  Create A Food
       for(let i = 1; i < this.foodQuantity; i++){
@@ -117,26 +108,19 @@ class SnakeGame{
       drawSnake(){
         const bodySnake = new Image();
         bodySnake.src =  './Assets/snakeImage.png';
+        
         this.snake.forEach(snake => {
           this.ctx.fillStyle = this.snakeColor;
           this.ctx.drawImage(bodySnake,snake.x,snake.y,this.sizeBlock.w,this.sizeBlock.h);
         })
       }
 
-      // drawEnemy(){
-      //   this.enemy.forEach(enemy => {
-      //     this.ctx.fillStyle = this.enemyColor;
-      //     this.ctx.fillRect(enemy.x,enemy.y,this.sizeBlock.w,this.sizeBlock.h);
-      //   })
-      // }
-      
       drawFood(){
         const ImageApple = new Image();
         ImageApple.src = './Assets/apple.png';
 
         this.food.forEach(food => {
           this.ctx.fillStyle = this.foodColor;
-          // this.ctx.fillRect(food.x,food.y,this.sizeBlock.w,this.sizeBlock.h);
           this.ctx.drawImage(ImageApple,food.x,food.y,this.sizeBlock.w,this.sizeBlock.h);
         })
       }
