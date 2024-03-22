@@ -1,4 +1,4 @@
-## <h1>SNAKE PYTHON GAME</h1>
+<h1>SNAKE PYTHON GAME</h1>
 
 Ini Adalah Game Snake Menggunakan Bahasa Pemrograman Javascript,HTML,CSS
 
