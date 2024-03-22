@@ -9,4 +9,4 @@ Ini Adalah Game Snake Menggunakan Bahasa Pemrograman Javascript,HTML,CSS
 <img src="Docs/Image5.png">
 
 ## Copyright
-Copyright &copy; By Rasya Putra Pratama 
+Copyright <strong>&copy; By Rasya Putra Pratama<strong> 
