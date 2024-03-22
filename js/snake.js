@@ -27,8 +27,10 @@ class SnakeGame{
         this.snakeDirection = object.snakeDirection;
         this.snakeDx = this.sizeBlock.w;
         this.snakeDy = 0;
-        this.snakeSpeed = 100;
-    
+        this.snakeSpeed = 150;
+        this.snakeMaxSpeed = 400;
+
+
         this.food = [];
         this.foodHistory = [];
         this.foodColor = object.foodColor;
@@ -206,7 +208,7 @@ class SnakeGame{
           if(body.x == food.x && body.y == food.y){
             eaten = true;
             foodEatenIndex = index;
-            this.snakeSpeed += 5;
+            if(this.snakeSpeed < this.snakeMaxSpeed) this.snakeSpeed += 2;
             return true;
           }
         });
@@ -223,7 +225,7 @@ class SnakeGame{
         this.bomb.forEach((bomb,index) => {
           if(body.x == bomb.x && body.y == bomb.y){
             touched = true;
-            this.snakeSpeed -= 5;
+            this.snakeSpeed -= 2;
             bombTouchIndex = index;
             this.snake.pop();
           if(bombTouchIndex !== null) this.bomb.splice(index,1);
@@ -239,7 +241,7 @@ class SnakeGame{
       }
 
       generateBomb(){
-        let bomb = this.block[this.randInt(1,this.blockQuantity.y-2)][this.randInt(1,this.blockQuantity.x-2)];
+        let bomb = this.block[this.randInt(1,this.blockQuantity.y-1)][this.randInt(1,this.blockQuantity.x-1)];
         this.bomb.push(bomb);
       }
 
