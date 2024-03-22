@@ -89,12 +89,16 @@ class SnakeGame{
           return this.generateFood();
         }
       }
+
       // Create A Bom
       for(let i = 1; i < this.bombQuantity; i++){
         if(this.gameStatus == 'play'){
           return this.generateBomb();
         }
       }
+
+      // Create A Brick
+
       this.events();
       }
 
