@@ -27,7 +27,7 @@ class SnakeGame{
         this.snakeDirection = object.snakeDirection;
         this.snakeDx = this.sizeBlock.w;
         this.snakeDy = 0;
-        this.snakeSpeed = 300;
+        this.snakeSpeed = 100;
     
         this.food = [];
         this.foodHistory = [];
@@ -107,7 +107,7 @@ class SnakeGame{
 
       drawSnake(){
         const bodySnake = new Image();
-        bodySnake.src =  '../Assets/snakeImage.png';
+        bodySnake.src =  './Assets/snakeImage.png';
 
         this.snake.forEach(snake => {
           this.ctx.fillStyle = this.snakeColor;
@@ -117,7 +117,7 @@ class SnakeGame{
 
       drawFood(){
         const ImageApple = new Image();
-        ImageApple.src = '../Assets/apple.png';
+        ImageApple.src = './Assets/apple.png';
 
         this.food.forEach(food => {
           this.ctx.fillStyle = this.foodColor;
@@ -127,7 +127,7 @@ class SnakeGame{
 
       drawBomb(){
         const ImageBomb = new Image();
-        ImageBomb.src = '../Assets/bomb.png';
+        ImageBomb.src = './Assets/bomb.png';
 
         this.bomb.forEach(bomb => {
           this.ctx.fillStyle = this.bombColor;
@@ -140,7 +140,6 @@ class SnakeGame{
         this.drawBlock();
         if(this.gameStatus !== 'over'){
           this.drawSnake();
-          // this.drawEnemy();
           this.drawFood();
           this.drawBomb();
         }
@@ -186,7 +185,7 @@ class SnakeGame{
         let seconds = Math.floor((showTime / 1000) % 60);
         let minutes = Math.floor((showTime / (1000 * 60)) % 60);
         let hours = Math.floor((showTime / (1000 * 60 * 60) % 60));
-        this.timer.innerText = `${hours<24?0:''}${hours}:${minutes<60?0:''}${minutes}:${seconds<10?0:''}${seconds}`;
+        this.timer.innerText = `${hours<10?0:''}${hours}:${minutes<10?0:''}${minutes}:${seconds<10?0:''}${seconds}`;
       }
 
       update(timestamp){
@@ -207,8 +206,7 @@ class SnakeGame{
           if(body.x == food.x && body.y == food.y){
             eaten = true;
             foodEatenIndex = index;
-            this.snakeSpeed -= 5;
-            this.TimeGenerateFood -= 50;
+            this.snakeSpeed += 5;
             return true;
           }
         });
@@ -225,6 +223,7 @@ class SnakeGame{
         this.bomb.forEach((bomb,index) => {
           if(body.x == bomb.x && body.y == bomb.y){
             touched = true;
+            this.snakeSpeed -= 5;
             bombTouchIndex = index;
             this.snake.pop();
           if(bombTouchIndex !== null) this.bomb.splice(index,1);
@@ -365,5 +364,4 @@ class SnakeGame{
       randInt(min,max){
         return Math.floor(Math.random() * max) + min;
       }
-
 };

@@ -32,7 +32,7 @@ const snake = new SnakeGame({
   snakeDirection : 'right',
   foodColor : 'red',
   foodQuantity : 1,
-  foodTimeGenerate:5000,
+  foodTimeGenerate:3000,
   text: text,
   restart:restart,
 });
